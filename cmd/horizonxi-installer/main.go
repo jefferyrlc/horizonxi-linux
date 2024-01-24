@@ -134,7 +134,7 @@ func InstallD8VK() {
 	}
 	log.Print("installing D8VK")
 	cmd = exec.Command("./setup_d3d8.sh", "install")
-	cmd.Dir = path.Join(*installPath, "d8vk-1.0")
+	cmd.Dir = path.Join(*installPath)
 	cmd.Env = os.Environ()
 	cmd.Env = append(cmd.Env, fmt.Sprintf("WINEPREFIX=%s", WinePrefix))
 

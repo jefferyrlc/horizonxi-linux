@@ -7,7 +7,7 @@ export WINEPREFIX=$(realpath ./.wine/)
 export WINEDEBUG=-all
 export __GL_THREADED_OPTIMIZATIONS=1
 export mesa_glthread=true
-WINE=$(realpath lutris-GE-Proton7-35-x86_64/bin/wine)
+WINE=$(realpath lutris-GE-Proton8-25-x86_64/bin/wine)
 
 cat <<EOF
 	 _   _            _               __  _____
