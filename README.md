@@ -68,20 +68,13 @@ After download (or if files are supplied by user), the data files are run throug
 [wine-ge-custom](https://github.com/GloriousEggroll/wine-ge-custom) is a version of wine that is built from the most
 recent bleeding-edge proton experimental wine repo.
 
-#### Step 5. Install DgVoodoo2 (enables graphics card)
+#### Step 5. Install D8VK (Direct3D 8 -> Vulkan)
 
-[DgVoodoo2](http://dege.freeweb.hu/dgVoodoo2/dgVoodoo2/) is a translation layer that translates older
-DirectX/Direct3d/glide APIs into newer versions of those APIs.
-
-This will allow HorizonXI to run on your graphics card instead of the CPU.
-
-#### Step 6. Install DXVK (Direct3D 9-11 -> Vulkan)
-
-[DXVK](https://github.com/doitsujin/dxvk) is another translation layer that translates Direct3D API calls to Vulkan API calls.
+[D8VK](https://github.com/AlpyneDreams/d8vk) is a translation layer that translates Direct3D API calls to Vulkan API calls.
 
 This will allow HorizonXI to run better on Linux.
 
-#### Step 7. Patch HorizonXI bootloader to support large address spaces
+#### Step 6. Patch HorizonXI bootloader to support large address spaces
 
 https://github.com/sheik/horizonxi-linux/blob/4c455018030d6bffe6f7cc7db273355616ffa8f7/cmd/horizonxi-installer/main.go#L264
 

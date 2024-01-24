@@ -30,9 +30,9 @@ const (
 	HorizonXIZipMagnet = "magnet:?xt=urn:btih:4eecae8431428820347314bc002492e210f29612&dn=HorizonXI.zip&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.nanoha.org%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.lilithraws.org%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce&tr=https%3A%2F%2Fopentracker.i2p.rocks%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker1.bt.moack.co.kr%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fpublic.tracker.vraphim.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=udp%3A%2F%2Fmovies.zsw.ca%3A6969%2Fannounce&tr=udp%3A%2F%2Fipv4.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.com%3A2810%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969"
 	SHA256Sum          = "af374c21eda3dc7517fc9e5b0da46eba9a928574a3c6792ea74de590571874c2"
 	DataFile           = "HorizonXI.zip"
-	WineURL            = "https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton7-35/wine-lutris-GE-Proton7-35-x86_64.tar.xz"
+	WineURL            = "https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-25/wine-lutris-GE-Proton8-25-x86_64.tar.xz"
 	DgVoodoo2URL       = "http://dege.freeweb.hu/dgVoodoo2/bin/dgVoodoo2_79_3.zip"
-	DXVKURL            = "https://github.com/doitsujin/dxvk/releases/download/v2.0/dxvk-2.0.tar.gz"
+	D8VKURL            = "https://github.com/AlpyneDreams/d8vk/releases/download/d8vk-v1.0/d8vk-v1.0.tar.gz"
 
 	ResetCursor = "\033[1F"
 
@@ -53,7 +53,7 @@ var WinePrefix = ""
 
 var (
 	installPath      = flag.String("p", os.Getenv("HOME")+"/HorizonXI", "install path")
-	winePath         = path.Join(*installPath, "lutris-GE-Proton7-35-x86_64/bin/wine")
+	winePath         = path.Join(*installPath, "lutris-GE-Proton8-25-x86_64/bin/wine")
 	dataFile         = flag.String("d", "", "path to HorizonXI.zip (optional, to skip download)")
 	RequiredPrograms = [...]string{"tar", "xz", "unzip"}
 )
@@ -103,8 +103,8 @@ func main() {
 	InstallDataFiles()
 	InstallWine()
 
-	InstallDgVoodoo2()
-	InstallDXVK()
+//	InstallDgVoodoo2()
+	InstallD8VK()
 	LargeAddressPatch(path.Join(*installPath, "HorizonXI/bootloader/horizon-loader.exe"))
 	Enable60FPS()
 	InstallLauncher()
@@ -121,27 +121,27 @@ func Enable60FPS() {
 	f.WriteString("\n/fps 1\n")
 }
 
-func InstallDXVK() {
-	log.Print("downloading DXVK")
-	resp, err := grab.Get(".", DXVKURL)
+func InstallD8VK() {
+	log.Print("downloading D8VK")
+	resp, err := grab.Get(".", D8VKURL)
 	if err != nil {
-		log.Fatalf("could not download DXVK: %s", err)
+		log.Fatalf("could not download D8VK: %s", err)
 	}
-	log.Print("extracting DXVK")
+	log.Print("extracting D8VK")
 	cmd := exec.Command("tar", "xzf", resp.Filename)
 	if err := cmd.Run(); err != nil {
-		log.Fatalf("error extracting DXVK: %s", err)
+		log.Fatalf("error extracting D8VK: %s", err)
 	}
-	log.Print("installing DXVK")
-	cmd = exec.Command("./setup_dxvk.sh", "install")
-	cmd.Dir = path.Join(*installPath, "dxvk-2.0")
+	log.Print("installing D8VK")
+	cmd = exec.Command("./setup_d3d8.sh", "install")
+	cmd.Dir = path.Join(*installPath, "d8vk-1.0")
 	cmd.Env = os.Environ()
 	cmd.Env = append(cmd.Env, fmt.Sprintf("WINEPREFIX=%s", WinePrefix))
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Print(string(output))
-		log.Fatalf("error installing dxvk (output dumped): %s", err)
+		log.Fatalf("error installing d8vk (output dumped): %s", err)
 	}
 }
 
@@ -180,6 +180,7 @@ func InstallDgVoodoo2() {
 	}
 }
 
+
 func InstallLauncher() {
 	os.WriteFile("horizonxi", LauncherScript, 0755)
 }
@@ -203,7 +204,7 @@ func InstallWine() {
 	if err := cmd.Run(); err != nil {
 		log.Fatalf("error installing wine: %s", err)
 	}
-	winecfg := path.Join(*installPath, "lutris-GE-Proton7-35-x86_64", "bin", "wineboot")
+	winecfg := path.Join(*installPath, "lutris-GE-Proton8-25-x86_64", "bin", "wineboot")
 	cmd = exec.Command(winecfg)
 	cmd.Env = os.Environ()
 	cmd.Env = append(cmd.Env, fmt.Sprintf("WINEPREFIX=%s", WinePrefix))
